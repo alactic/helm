@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: userservice
+spec:
+  ports:
+  - port: 80
+    targetPort: 8888
+    protocol: TCP
+    name: http
+  selector:
+    app: userservice
+
+
+
+
+
+
+
+# # apiVersion: v1
+# # kind: Service
+# # metadata:
+# #   name: stilton
+# # spec:
+# #   ports:
+# #   - name: http
+# #     targetPort: 80
+# #     port: 80
+# #   selector:
+# #     app: cheese
+# #     task: stilton
+# #   externalIPs:
+# #   - 192.168.0.10
+# # ---
+# # apiVersion: v1
+# # kind: Service
+# # metadata:
+# #   name: cheddar
+# # spec:
+# #   ports:
+# #   - name: http
+# #     targetPort: 80
+# #     port: 80
+# #   selector:
+# #     app: cheese
+# #     task: cheddar
+# #   externalIPs:
+# #   - 192.168.0.10
+# # ---
+# # apiVersion: v1
+# # kind: Service
+# # metadata:
+# #   name: wensleydale
+# #   annotations:
+# #     traefik.backend.circuitbreaker: "NetworkErrorRatio() > 0.5"
+# # spec:
+# #   ports:
+# #   - name: http
+# #     targetPort: 80
+# #     port: 80
+# #   selector:
+# #     app: cheese
+# #     task: wensleydale
+# #   externalIPs:
+# #   - 192.168.0.10
+
+
+
+
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: traefik-web-ui
+#   namespace: kube-system
+# spec:
+#   selector:
+#     k8s-app: traefik-ingress-lb
+#   ports:
+#   - name: web
+#     port: 80
+#     targetPort: 8080
+# ---
+# apiVersion: extensions/v1beta1
+# kind: Ingress
+# metadata:
+#   name: traefik-web-ui
+#   namespace: kube-system
+# spec:
+#   rules:
+#   - host: traefik-ui.minikube
+#     http:
+#       paths:
+#       - path: /
+#         backend:
+#           serviceName: traefik-web-ui
+#           servicePort: web

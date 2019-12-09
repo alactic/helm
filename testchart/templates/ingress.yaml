@@ -1,0 +1,44 @@
+apiVersion: networking.k8s.io/v1beta1 # for versions before 1.14 use extensions/v1beta1
+kind: Ingress
+
+metadata:
+  name: userservice
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    # ingress.bluemix.net/rewrite-path: "serviceName=userservice rewrite=/"
+    # nginx.org/rewrites: serviceName=userservice rewrite=/
+    # nginx.org/ssl-services: userservice
+spec:
+  rules:
+  - host: mini.info
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: userservice
+          servicePort: 8889
+---
+apiVersion: networking.k8s.io/v1beta1 # for versions before 1.14 use extensions/v1beta1
+kind: Ingress
+
+metadata:
+  name: userservice1
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # ingress.bluemix.net/rewrite-path: "serviceName=userservice rewrite=/"
+    # nginx.org/rewrites: serviceName=userservice rewrite=/
+    # nginx.org/ssl-services: userservice
+spec:
+  rules:
+  - host: mini.info
+    http:
+      paths:
+      - path: /user(/|$)(.*)
+        backend:
+          serviceName: userservice
+          servicePort: 8888
+      - path: /auth(/|$)(.*)
+        backend:
+          serviceName: userservice
+          servicePort: 8889
+        

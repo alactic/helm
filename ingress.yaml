@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1beta1 # for versions before 1.14 use extensions/v1beta1
+kind: Ingress
+metadata:
+  name: userservice
+  annotations:
+    ingress.bluemix.net/rewrite-path: "serviceName=app-service rewrite=/"
+spec:
+  rules:
+  - host: minis.info
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: userservice
+          servicePort: 8888

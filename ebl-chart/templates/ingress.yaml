@@ -1,0 +1,70 @@
+apiVersion: networking.k8s.io/v1beta1 # for versions before 1.14 use extensions/v1beta1
+kind: Ingress
+metadata:
+  name: mini-ingre
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+  - host: ministores.info
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: userservice
+          servicePort: 80
+
+
+
+
+
+
+
+
+
+
+
+
+# # apiVersion: extensions/v1beta1
+# # kind: Ingress
+# # metadata:
+# #   name: meow-ingress
+# #   annotations:
+# #     nginx.ingress.kubernetes.io/ssl-redirect: \"false\"
+# # spec:
+# #   rules:
+# #   - http:
+# #       paths:
+# #       - path: /meow
+# #         backend:
+# #           serviceName: meow-svc
+# #           servicePort: 80
+
+
+
+
+
+# # # apiVersion: extensions/v1beta1
+# # # kind: Ingress
+# # # metadata:
+# # #   name: cheeses
+# # #   annotations:
+# # #     kubernetes.io/ingress.class: traefik
+# # #     traefik.frontend.rule.type: PathPrefixStrip
+# # # spec:
+# # #   rules:
+# # #   - host: cheeses.local
+# # #     http:
+# # #       paths:
+# # #       - path: /stilton
+# # #         backend:
+# # #           serviceName: stilton
+# # #           servicePort: http
+# # #       - path: /cheddar
+# # #         backend:
+# # #           serviceName: cheddar
+# # #           servicePort: http
+# # #       - path: /wensleydale
+# # #         backend:
+# # #           serviceName: wensleydale
+# # #           servicePort: http

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userservice
+  template:
+    metadata:
+      labels:
+        app: userservice
+    spec:
+      containers:
+      - name: userservice
+        image: softloft/ministore-userservices:1.11
+        ports:
+        - containerPort: 8888
+        env:
+        - name: COUCHBASE_HOST
+          value: http://192.168.0.101:31954/
+        - name: COUCHBASE_BUCKET
+          value: default
+        - name: COUCHBASE_PASSWORD
+          value: password
+        - name: COUCHBASE_USERNAME
+          value: softloft
+        - name: MODULE_NAME
+          value: user
+      - name: authservice
+        image: softloft/ministore-authservices:latest
+        ports:
+        - containerPort: 8889
+        env:
+        - name: COUCHBASE_HOST
+          value: http://192.168.8.101:31381/
+        - name: COUCHBASE_BUCKET
+          value: default
+        - name: COUCHBASE_PASSWORD
+          value: password
+        - name: COUCHBASE_USERNAME
+          value: softloft
