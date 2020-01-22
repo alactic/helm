@@ -1,21 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx1
+  name: whoami-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx1
+      app: whoami
   template:
     metadata:
       labels:
-        app: nginx1
+        app: whoami
     spec:
       containers:
-      - name: nginx1
-        image: nginx:1.13
-        ports:
-        - containerPort: 80
-
-
+      - name: whoami-container
+        image: containous/whoami

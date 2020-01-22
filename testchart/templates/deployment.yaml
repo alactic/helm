@@ -1,43 +1,80 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: userservice
+  name: ministore7
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: userservice
+      app: ministore7
   template:
     metadata:
       labels:
-        app: userservice
+        app: ministore7
     spec:
       containers:
       - name: userservice
-        image: softloft/ministore-userservices:1.11
+        image: softloft/faceappapi-userservice:2.0
+        ports:
+        - containerPort: 8883
+        env:
+        - name: DB_URL
+          value: mongodb+srv://elvis:0gbunike@cluster0-oqk2c.mongodb.net/test?retryWrites=true&w=majority
+        - name: DB_NAME
+          value: godemo
+        - name: DB_TABLE
+          value: users
+        - name: SENDGRID_API_KEY
+          value: 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
+      - name: authservice
+        image: softloft/faceappapi-authservice:2.1
+        ports:
+        - containerPort: 8880
+        env:
+        - name: DB_URL
+          value: mongodb+srv://elvis:0gbunike@cluster0-oqk2c.mongodb.net/test?retryWrites=true&w=majority
+        - name: DB_NAME
+          value: godemo
+        - name: DB_TABLE
+          value: users
+        - name: SENDGRID_API_KEY
+          value: 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
+      - name: shareservice
+        image: softloft/ministore-shareservice:2.1
+        ports:
+        - containerPort: 50051
+        env:
+        - name: DB_URL
+          value: mongodb+srv://elvis:0gbunike@cluster0-oqk2c.mongodb.net/test?retryWrites=true&w=majority
+        - name: DB_NAME
+          value: godemo
+        - name: DB_TABLE
+          value: users
+        - name: SENDGRID_API_KEY
+          value: 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
+      - name: locationservice
+        image: softloft/faceappapi-locationservice:2.1
+        ports:
+        - containerPort: 8884
+        env:
+        - name: DB_URL
+          value: mongodb+srv://elvis:0gbunike@cluster0-oqk2c.mongodb.net/test?retryWrites=true&w=majority
+        - name: DB_NAME
+          value: locations
+        - name: DB_TABLE
+          value: locations
+        - name: SENDGRID_API_KEY
+          value: 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
+      - name: middlewareservice
+        image: softloft/faceappapi-middlewareservice:2.1
         ports:
         - containerPort: 8888
         env:
-        - name: COUCHBASE_HOST
-          value: http://192.168.0.101:31954/
-        - name: COUCHBASE_BUCKET
-          value: default
-        - name: COUCHBASE_PASSWORD
-          value: password
-        - name: COUCHBASE_USERNAME
-          value: softloft
-        - name: MODULE_NAME
-          value: user
-      - name: authservice
-        image: softloft/ministore-authservices:latest
-        ports:
-        - containerPort: 8889
-        env:
-        - name: COUCHBASE_HOST
-          value: http://192.168.8.101:31381/
-        - name: COUCHBASE_BUCKET
-          value: default
-        - name: COUCHBASE_PASSWORD
-          value: password
-        - name: COUCHBASE_USERNAME
-          value: softloft
+        - name: DB_URL
+          value: mongodb+srv://elvis:0gbunike@cluster0-oqk2c.mongodb.net/test?retryWrites=true&w=majority
+        - name: DB_NAME
+          value: users
+        - name: DB_TABLE
+          value: locations
+        - name: SENDGRID_API_KEY
+          value: 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

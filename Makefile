@@ -30,7 +30,28 @@ deleteDeployment:
 	sudo kubectl delete deployment.apps/meow
 
 directLink:
-	 sudo echo "$(sudo minikube ip) mini.info" | sudo tee -a /etc/hosts
+	 sudo echo "192.168.64.3 mini.info/user" | sudo tee -a /etc/hosts
 
 update:
 	sudo helm upgrade --install  test1 ./testchart
+
+install:
+	helm install test1 ./testchart
+address:
+	https://medium.com/@geraldcroes/kubernetes-traefik-101-when-simplicity-matters-957eeede2cf8
+
+patchpending:
+	kubectl patch svc servicename  -p '{"spec": {"type": "LoadBalancer", "externalIPs":["172.16.2.13"]}}'
+// https://www.reddit.com/r/iOSProgramming/comments/9a1ycx/is_a_2011_imac_intel_i58gb_ram_still_good_for/
+
+removehelm:
+	helm reset --force
+
+helmchart:
+	helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+
+createClusterforkubernete:
+	kubectl config view --flatten --minify > admin.config
+
+ping:
+	sudo ping a0630dfad226611eabd1f06d2cf4c085-135287066.eu-west-1.elb.amazonaws.com
